@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(awk NR>=180 && NR<=195:*)",
-      "Bash(python3 -c ':*)"
+      "Bash(python3 -c ':*)",
+      "Bash(powershell -Command \"Get-Content 'D:\\\\pjs\\\\exporters\\\\nur\\\\index.html' | Select-Object -Skip 144 -First 41\")",
+      "Bash(powershell:*)"
     ]
   }
 }
