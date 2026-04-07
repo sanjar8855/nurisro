@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk NR>=180 && NR<=195:*)",
+      "Bash(python3 -c ':*)"
+    ]
+  }
+}
