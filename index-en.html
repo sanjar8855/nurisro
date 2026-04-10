@@ -447,7 +447,7 @@ async function sendToTelegram(){
   try{
     const r=await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({chat_id:TG_CHAT,text:text,parse_mode:'HTML'})
+      body:JSON.stringify({chat_id:TG_CHAT,text:text})
     });
     const d=await r.json();
     if(d.ok){
