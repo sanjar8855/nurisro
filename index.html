@@ -194,6 +194,29 @@
       .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
       .gallery-grid img{height:160px}
     }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Rasmlarni yonma-yon va tartibli joylash uchun */
+    .footer-logos {
+      display: flex;
+      justify-content: center; /* Rasmlarni o'rtaga joylaydi */
+      align-items: center;     /* Vertikal o'q bo'yicha tekislaydi */
+      gap: 20px;               /* Ikki rasm orasidagi ochiq masofa */
+      margin-top: 15px;
+    }
+
+    /* Rasmlarni kichraytirish uchun */
+    .footer-logos img {
+      height: 90px; /* Shu joydan rasmlar o'lchamini kattalashtirish yoki kichraytirish mumkin */
+      width: auto;  /* Rasm sifati va proporsiyasi buzilmasligi uchun */
+    }
+    footer .footer-text{
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
@@ -424,7 +447,12 @@
 </section>
 
 <footer>
-  <p>© 2026 NUR Group — "Tinchlik Meva Eksport" QK. O'zbekiston. &nbsp;|&nbsp; <a href="mailto:info@nurgroup.uz">info@nurgroup.uz</a></p>
+  <div class="footer-logos">
+    <img src="photos/export-logo.png" alt="Exporters logo">
+    <img src="photos/elferex-logo.png" alt="ElFerEx logo">
+  </div>
+  <p class="footer-text"> O'zbekiston Eksportchilar Uyushmasi Farg'ona viloyati hududiy boshqarmasi</p>
+  <p>© 2026 "Tinchlik Meva Eksport" QK. Barcha huquqlar himoyalangan.</p>
 </footer>
 
 <script>
