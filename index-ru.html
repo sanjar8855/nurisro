@@ -139,7 +139,15 @@ section{padding:100px 60px}
 .cta-section h2{font-size:clamp(30px,4vw,50px);font-weight:800;margin-bottom:14px}
 .cta-section h2 i{color:var(--gold);font-style:normal}
 .cta-section p{font-size:17px;color:rgba(255,255,255,.55);max-width:580px;margin:0 auto 36px}
-.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.contact-form{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.contact-form input{width:100%;padding:16px 22px;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(255,255,255,.08);color:var(--white);font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:all .3s;backdrop-filter:blur(8px)}
+.contact-form input::placeholder{color:rgba(255,255,255,.4)}
+.contact-form input:focus{border-color:var(--gold);background:rgba(255,255,255,.12);box-shadow:0 0 0 3px rgba(200,162,78,.15)}
+.contact-form .btn-submit{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);padding:16px 38px;border-radius:50px;font-weight:700;font-size:16px;border:none;cursor:pointer;transition:all .3s;font-family:'DM Sans',sans-serif;letter-spacing:.5px}
+.contact-form .btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(200,162,78,.4)}
+.contact-form .btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.form-msg{margin-top:12px;font-size:15px;min-height:24px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);padding:15px 38px;border-radius:50px;font-weight:600;font-size:15px;text-decoration:none;transition:all .3s}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(200,162,78,.4)}
 .btn-out{border:1px solid rgba(255,255,255,.25);color:var(--white);padding:15px 38px;border-radius:50px;font-weight:500;font-size:15px;text-decoration:none;transition:all .3s}
@@ -396,9 +404,15 @@ footer a{color:var(--gold);text-decoration:none}
 <section class="cta-section" id="contact">
   <h2>Готовы <i>расти вместе?</i></h2>
   <p>Мы активно ищем стратегических инвесторов и торговых партнёров для ускорения выхода на европейские и азиатские рынки.</p>
+  <div class="contact-form" id="contactForm">
+    <input type="text" id="cf-name" placeholder="Ваше имя" required>
+    <input type="tel" id="cf-phone" placeholder="Номер телефона" required>
+    <input type="email" id="cf-email" placeholder="Электронная почта" required>
+    <button class="btn-submit" id="cf-btn" onclick="sendToTelegram()">Отправить</button>
+    <div class="form-msg" id="cf-msg"></div>
+  </div>
   <div class="cta-btns">
-    <a href="mailto:info@nurgroup.uz" class="btn-gold">Связаться для инвестиций</a>
-    <a href="#about" class="btn-out">Профиль компании</a>
+    <a href="mailto:info@nurgroup.uz" class="btn-out">Связаться для партнёрства</a>
   </div>
 </section>
 
@@ -418,6 +432,32 @@ document.querySelectorAll('.gallery-grid img').forEach(img=>{
     document.getElementById('lightbox').classList.add('active');
   });
 });
+// Telegram contact form
+const TG_TOKEN='8792268331:AAE1rxU__3YdWOPHj3rrGjr9Cp-O5av0a8w';
+const TG_CHAT='-5144517106';
+async function sendToTelegram(){
+  const btn=document.getElementById('cf-btn');
+  const msg=document.getElementById('cf-msg');
+  const name=document.getElementById('cf-name').value.trim();
+  const phone=document.getElementById('cf-phone').value.trim();
+  const email=document.getElementById('cf-email').value.trim();
+  if(!name||!phone||!email){msg.textContent='⚠ Заполните все поля';msg.style.color='#e8c96e';return;}
+  btn.disabled=true;btn.textContent='...';
+  const text=`🌿 NUR Group — Новый запрос\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n📧 Email: ${email}\n\n🕐 ${new Date().toLocaleString()}`;
+  try{
+    const r=await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:TG_CHAT,text:text,parse_mode:'HTML'})
+    });
+    const d=await r.json();
+    if(d.ok){
+      msg.textContent="✅ Сообщение отправлено! Мы свяжемся с вами.";msg.style.color='#2d8a45';
+      document.getElementById('cf-name').value='';document.getElementById('cf-phone').value='';document.getElementById('cf-email').value='';
+      alert("✅ Сообщение отправлено! Мы свяжемся с вами.");
+    }else{msg.textContent="❌ Произошла ошибка. Попробуйте снова.";msg.style.color='#e55';}
+  }catch(e){msg.textContent="❌ Произошла ошибка. Попробуйте снова.";msg.style.color='#e55';}
+  btn.disabled=false;btn.textContent="Отправить";
+}
 </script>
 </body>
 </html>
