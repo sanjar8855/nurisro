@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 $TG_TOKEN = '8792268331:AAE1rxU__3YdWOPHj3rrGjr9Cp-O5av0a8w';
-$TG_CHAT  = '-5144517106';
+$TG_CHAT  = '-1003926160529';
 
 $name  = trim($_POST['name']  ?? '');
 $phone = trim($_POST['phone'] ?? '');
