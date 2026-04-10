@@ -441,8 +441,6 @@
     });
   });
   // Telegram contact form
-  const TG_TOKEN='8792268331:AAE1rxU__3YdWOPHj3rrGjr9Cp-O5av0a8w';
-  const TG_CHAT='-5144517106';
   async function sendToTelegram(){
     const btn=document.getElementById('cf-btn');
     const msg=document.getElementById('cf-msg');
@@ -451,12 +449,10 @@
     const email=document.getElementById('cf-email').value.trim();
     if(!name||!phone||!email){msg.textContent='⚠️ Barcha maydonlarni to\'ldiring';msg.style.color='#e8c96e';return;}
     btn.disabled=true;btn.textContent='...';
-    const text=`🌱 NUR Group — Yangi murojaat\n\n👤 Ism: ${name}\n📞 Telefon: ${phone}\n📧 Email: ${email}\n\n🕐 ${new Date().toLocaleString()}`;
+    const fd=new FormData();
+    fd.append('name',name);fd.append('phone',phone);fd.append('email',email);fd.append('lang','uz');
     try{
-      const r=await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({chat_id:TG_CHAT,text:text})
-      });
+      const r=await fetch('send.php',{method:'POST',body:fd});
       const d=await r.json();
       if(d.ok){
         msg.textContent="✅ Xabaringiz yuborildi! Tez orada siz bilan bog'lanamiz.";msg.style.color='#2d8a45';
