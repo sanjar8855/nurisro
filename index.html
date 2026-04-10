@@ -453,13 +453,18 @@
     fd.append('name',name);fd.append('phone',phone);fd.append('email',email);fd.append('lang','uz');
     try{
       const r=await fetch('send.php',{method:'POST',body:fd});
-      const d=await r.json();
+      const raw=await r.text();
+      console.log('send.php response:', raw);
+      const d=JSON.parse(raw);
       if(d.ok){
         msg.textContent="✅ Xabaringiz yuborildi! Tez orada siz bilan bog'lanamiz.";msg.style.color='#2d8a45';
         document.getElementById('cf-name').value='';document.getElementById('cf-phone').value='';document.getElementById('cf-email').value='';
         alert("✅ Xabaringiz yuborildi! Tez orada siz bilan bog'lanamiz.");
       }else{msg.textContent="❌ Xatolik yuz berdi. Qaytadan urinib ko'ring.";msg.style.color='#e55';}
-    }catch(e){msg.textContent="❌ Xatolik yuz berdi. Qaytadan urinib ko'ring.";msg.style.color='#e55';}
+    }catch(e){
+      console.error('sendToTelegram error:', e);
+      msg.textContent="❌ "+e.message;msg.style.color='#e55';
+    }
     btn.disabled=false;btn.textContent="Yuborish";
   }
 </script>
